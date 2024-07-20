@@ -1,12 +1,15 @@
-image: node:16
-
 stages:
   - lint
   - test
 
+variables:
+  NODE_ENV: 'development'
+
 cache:
+  key: ${CI_COMMIT_REF_SLUG}
   paths:
     - node_modules/
+    - .npm/
 
 before_script:
   - npm install
