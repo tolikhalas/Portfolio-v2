@@ -1,0 +1,15 @@
+stages:
+  - deploy
+
+variables:
+  VERCEL_TOKEN: ${VERCEL_TOKEN}
+
+deploy_to_vercel:
+  stage: deploy
+  image: node:16
+  script:
+    - npm install
+    - npm run build
+    - npx vercel --token $VERCEL_TOKEN --prod
+  only:
+    - main

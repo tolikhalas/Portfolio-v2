@@ -4,7 +4,7 @@ stages:
   - code_quality
 
 variables:
-  NODE_ENV: 'development'
+  NODE_ENV: "development"
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -26,4 +26,5 @@ test:
     - npm test
 
 include:
-  - local: '/.gitlab-ci-code-quality.yml'
+  - local: "/.gitlab-code-quality.yml"
+  - local: "/.gitlab-cd.yml"
