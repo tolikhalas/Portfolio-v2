@@ -1,6 +1,7 @@
 stages:
   - lint
   - test
+  - code_quality
 
 variables:
   NODE_ENV: 'development'
@@ -23,3 +24,6 @@ test:
   stage: test
   script:
     - npm test
+
+include:
+  - local: '/.gitlab-ci-code-quality.yml'

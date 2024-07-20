@@ -1,0 +1,30 @@
+stages:
+  - code_quality
+
+variables:
+  NODE_ENV: 'development'
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+    - .npm/
+
+before_script:
+  - npm install
+
+codeql:
+  stage: code_quality
+  image: github/codeql-action/analyze:v2
+  script:
+    - git clone https://github.com/github/codeql-action.git
+    - cd codeql-action
+    - ./codeql-bootstrap.sh
+    - codeql database create codeql-database --language=javascript --command="npm install && npm test"  # JavaScript includes TypeScript
+    - codeql database analyze codeql-database --format=sarif-latest --output=codeql-report.sarif
+  artifacts:
+    reports:
+      codequality: codeql-report.sarif
+    paths:
+      - codeql-database
+      - codeql-report.sarif
