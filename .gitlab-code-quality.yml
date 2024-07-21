@@ -2,16 +2,18 @@ stages:
   - code_quality
 
 variables:
-  NODE_ENV: 'development'
+  NODE_ENV: "development"
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
     - node_modules/
-    - .npm/
+    - .bun/
 
 before_script:
-  - npm install
+  - curl -fsSL https://bun.sh/install | bash
+  - export PATH="$HOME/.bun/bin:$PATH"
+  - bun install
 
 codeql:
   stage: code_quality
@@ -20,7 +22,7 @@ codeql:
     - git clone https://github.com/github/codeql-action.git
     - cd codeql-action
     - ./codeql-bootstrap.sh
-    - codeql database create codeql-database --language=javascript --command="npm install && npm test"  # JavaScript includes TypeScript
+    - codeql database create codeql-database --language=javascript --command="bun install && bun run test" # JavaScript includes TypeScript
     - codeql database analyze codeql-database --format=sarif-latest --output=codeql-report.sarif
   artifacts:
     reports:

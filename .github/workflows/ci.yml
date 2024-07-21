@@ -10,24 +10,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version: "16"
+          bun-version: "latest"
 
-      - name: Cache node modules
+      - name: Cache Bun modules
         uses: actions/cache@v3
         with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          path: ~/.bun
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-bun-
 
       - name: Install dependencies
-        run: npm install
+        run: bun install
 
       - name: Run ESLint
-        run: npm run lint
+        run: bun run lint
 
   test:
     runs-on: ubuntu-latest
@@ -36,21 +36,21 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version: "16"
+          bun-version: "latest"
 
-      - name: Cache node modules
+      - name: Cache Bun modules
         uses: actions/cache@v3
         with:
-          path: node_modules
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          path: ~/.bun
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-bun-
 
       - name: Install dependencies
-        run: npm install
+        run: bun install
 
       - name: Run tests
-        run: npm test
+        run: bun run test

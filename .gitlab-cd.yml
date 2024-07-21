@@ -7,9 +7,12 @@ variables:
 deploy_to_vercel:
   stage: deploy
   image: node:16
+  before_script:
+    - curl -fsSL https://bun.sh/install | bash
+    - export PATH="$HOME/.bun/bin:$PATH"
   script:
-    - npm install
-    - npm run build
+    - bun install
+    - bun run build
     - npx vercel --token $VERCEL_TOKEN --prod
   only:
     - main

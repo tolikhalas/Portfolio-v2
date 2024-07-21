@@ -9,21 +9,23 @@ variables:
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
-    - node_modules/
-    - .npm/
+    - .bun/
+    - bun.lockb
 
 before_script:
-  - npm install
+  - curl -fsSL https://bun.sh/install | bash
+  - export PATH="$HOME/.bun/bin:$PATH"
+  - bun install
 
 lint:
   stage: lint
   script:
-    - npm run lint
+    - bun run lint
 
 test:
   stage: test
   script:
-    - npm test
+    - bun run test
 
 include:
   - local: "/.gitlab-code-quality.yml"
