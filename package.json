@@ -10,7 +10,7 @@
     "test": "bun run build && NODE_NO_WARNINGS=1 lerna run test --parallel",
     "lint": "bun run build && NODE_NO_WARNINGS=1 lerna run lint --parallel"
   },
-  "dependencies": {},
+  "dependencies": { "bun": "^1.1.20" },
   "devDependencies": {
     "lerna": "^8.1.6"
   }
