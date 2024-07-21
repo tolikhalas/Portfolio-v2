@@ -1,3 +1,3 @@
-import MyComponents from "./MyComponents";
+import MyComponents from "./MyComponent";
 
 export { MyComponents };
