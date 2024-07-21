@@ -5,10 +5,10 @@
     "packages/*"
   ],
   "scripts": {
-    "dev": "lerna run dev --parallel",
-    "build": "lerna run build --parallel",
-    "test": "lerna run test --parallel",
-    "lint": "lerna run lint --parallel"
+    "dev": "NODE_NO_WARNINGS=1 lerna run dev --parallel",
+    "build": "NODE_NO_WARNINGS=1 lerna run build --parallel",
+    "test": "NODE_NO_WARNINGS=1 lerna run test --parallel",
+    "lint": "NODE_NO_WARNINGS=1 lerna run lint --parallel"
   },
   "dependencies": {},
   "devDependencies": {
