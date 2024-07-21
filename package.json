@@ -7,8 +7,8 @@
   "scripts": {
     "dev": "NODE_NO_WARNINGS=1 lerna run dev --parallel",
     "build": "NODE_NO_WARNINGS=1 lerna run build --parallel",
-    "test": "NODE_NO_WARNINGS=1 lerna run test --parallel",
-    "lint": "NODE_NO_WARNINGS=1 lerna run lint --parallel"
+    "test": "bun run build && NODE_NO_WARNINGS=1 lerna run test --parallel",
+    "lint": "bun run build && NODE_NO_WARNINGS=1 lerna run lint --parallel"
   },
   "dependencies": {},
   "devDependencies": {
