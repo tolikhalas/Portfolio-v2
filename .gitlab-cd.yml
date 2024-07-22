@@ -1,18 +1,39 @@
 stages:
+  - install
+  - build
   - deploy
 
 variables:
-  VERCEL_TOKEN: ${VERCEL_TOKEN}
+  VERCEL_ORG_ID: $VERCEL_ORG_ID
+  VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID
+  VERCEL_TOKEN: $VERCEL_TOKEN
 
-deploy_to_vercel:
-  stage: deploy
-  image: node:16
-  before_script:
-    - curl -fsSL https://bun.sh/install | bash
-    - export PATH="$HOME/.bun/bin:$PATH"
+before_script:
+  # Install bun
+  - curl -fsSL https://bun.sh/install | bash
+  - export BUN_INSTALL="$HOME/.bun"
+  - export PATH="$BUN_INSTALL/bin:$PATH"
+
+install:
+  stage: install
   script:
     - bun install
-    - bun run build
-    - npx vercel --token $VERCEL_TOKEN --prod
+  artifacts:
+    paths:
+      - node_modules/
+
+build:
+  stage: build
+  script:
+    - vercel pull --yes --environment=production --token=$VERCEL_TOKEN
+    - vercel build --prod --token=$VERCEL_TOKEN
+  artifacts:
+    paths:
+      - .next/
+
+deploy:
+  stage: deploy
+  script:
+    - vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
   only:
     - main
