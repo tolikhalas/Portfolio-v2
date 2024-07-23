@@ -1,0 +1,32 @@
+stages:
+  - lint
+  - test
+  - code_quality
+
+variables:
+  NODE_ENV: "development"
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - .bun/
+    - bun.lockb
+
+before_script:
+  - curl -fsSL https://bun.sh/install | bash
+  - export PATH="$HOME/.bun/bin:$PATH"
+  - bun install
+
+lint:
+  stage: lint
+  script:
+    - bun run lint
+
+test:
+  stage: test
+  script:
+    - bun run test
+
+include:
+  - local: "/.gitlab-code-quality.yml"
+  - local: "/.gitlab-cd.yml"

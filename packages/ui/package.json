@@ -1,26 +1,37 @@
 {
-  "name": "ui",
+  "name": "@portfolio/ui",
   "version": "0.1.0",
   "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "dev": "concurrently \"npm run dev:tsc\" \"npm run dev:css\"",
+    "dev:tsc": "tsc --watch",
+    "dev:css": "tailwindcss -i src/globals.css -o dist/globals.css --watch --minify",
+    "build": "npm run build:ui && npm run build:css",
+    "build:ui": "tsc -b",
+    "build:css": "tailwindcss -i src/globals.css -o dist/globals.css --minify",
+    "test": "jest --config jest.config.ts",
+    "lint": "eslint . --ext .ts,.tsx"
   },
   "dependencies": {
     "react": "^18",
-    "react-dom": "^18",
-    "next": "14.2.5"
+    "react-dom": "^18"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@testing-library/jest-dom": "^6.4.6",
+    "@testing-library/react": "^16.0.0",
+    "@types/jest": "^29.5.12",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
-    "postcss": "^8",
-    "tailwindcss": "^3.4.1",
+    "concurrently": "^8.2.2",
     "eslint": "^8",
-    "eslint-config-next": "14.2.5"
+    "eslint-config-next": "14.2.5",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
+    "ts-jest": "^29.2.3",
+    "ts-node": "^10.9.2",
+    "typescript": "^5"
   }
 }
