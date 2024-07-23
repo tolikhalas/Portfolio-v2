@@ -1,0 +1,24 @@
+image: oven/bun:latest
+
+stages:
+  - build
+  - deploy
+
+build:
+  stage: build
+  script:
+    - bun install
+    - bun run build
+  artifacts:
+    paths:
+      - packages/client/.next
+      - packages/ui/dist
+
+deploy:
+  stage: deploy
+  script:
+    - bun install -g vercel
+    - cd packages/client
+    - vercel deploy --prod --token $VERCEL_TOKEN
+  only:
+    - main
