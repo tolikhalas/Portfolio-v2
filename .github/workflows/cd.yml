@@ -1,5 +1,3 @@
-# .github/workflows/continuous-deployment.yml
-
 name: Continuous Deployment
 
 on:
