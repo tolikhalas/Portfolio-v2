@@ -1,39 +1,24 @@
+image: oven/bun:latest
+
 stages:
-  - install
   - build
   - deploy
-
-variables:
-  VERCEL_ORG_ID: $VERCEL_ORG_ID
-  VERCEL_PROJECT_ID: $VERCEL_PROJECT_ID
-  VERCEL_TOKEN: $VERCEL_TOKEN
-
-before_script:
-  # Install bun
-  - curl -fsSL https://bun.sh/install | bash
-  - export BUN_INSTALL="$HOME/.bun"
-  - export PATH="$BUN_INSTALL/bin:$PATH"
-
-install:
-  stage: install
-  script:
-    - bun install
-  artifacts:
-    paths:
-      - node_modules/
 
 build:
   stage: build
   script:
-    - vercel pull --yes --environment=production --token=$VERCEL_TOKEN
-    - vercel build --prod --token=$VERCEL_TOKEN
+    - bun install
+    - bun run build
   artifacts:
     paths:
-      - .next/
+      - packages/client/.next
+      - packages/ui/dist
 
 deploy:
   stage: deploy
   script:
-    - vercel deploy --prebuilt --prod --token=$VERCEL_TOKEN
+    - bun install -g vercel
+    - cd packages/client
+    - vercel deploy --prod --token $VERCEL_TOKEN
   only:
     - main
